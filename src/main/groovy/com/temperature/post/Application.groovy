@@ -1,4 +1,4 @@
-package com.temperature.temp_post_api
+package com.temperature.post
 
 /**
  * Created by Chantal on 7/10/16.
