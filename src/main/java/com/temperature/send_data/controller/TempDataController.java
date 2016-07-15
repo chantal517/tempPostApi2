@@ -4,8 +4,6 @@ import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Jabari on 07/14/2016.
@@ -29,7 +27,7 @@ public class TempDataController {
     public ResponseEntity<String> storeTempData(@RequestBody String s) throws Exception {
 
         // Return a response that says Hi, and a 202 (ACCEPTED) response code
-        ResponseEntity<String> responseEntity = new ResponseEntity<String>(s, HttpStatus.ACCEPTED);
+        ResponseEntity<String> responseEntity = new ResponseEntity<String>("Post successful", HttpStatus.ACCEPTED);
 
         // TODO - Implement logic for sending to data validator
 
@@ -45,7 +43,7 @@ public class TempDataController {
     public ResponseEntity<String> returnTempData() throws Exception {
 
         // Return a response that says Hi, and a 200 (OK) response code
-        ResponseEntity<String> responseEntity = new ResponseEntity<String>("Hi", HttpStatus.OK);
+        ResponseEntity<String> responseEntity = new ResponseEntity<String>("Get successful", HttpStatus.OK);
 
         // TODO - Implement logic for getting data from database
 
@@ -58,11 +56,11 @@ public class TempDataController {
     // within this class. This we will associate with errors that happen on the server side
     @SuppressWarnings("unused")
     @ExceptionHandler(Throwable.class)
-    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR, reason = "REASON WHY THERE WAS AN INTERNAL SERER ERROR")
-    public Map<String, String> errorResponse(Throwable throwable) {
+    @ResponseStatus(value = HttpStatus.METHOD_NOT_ALLOWED)
+    public void errorResponse(Throwable throwable) {
 
         // TODO - Implement error handling logic
 
-        return new HashMap<String, String>();
+        return;
     }
 }
