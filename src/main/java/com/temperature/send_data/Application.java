@@ -13,6 +13,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Application {
     static Logger log = LoggerFactory.getLogger(com.temperature.send_data.Application.class);
 
+    /**
+     * START THE MAGIC
+     * @param args
+     * @throws Exception
+     */
     public static void main(String[] args) throws Exception {
         SpringApplication.run(Application.class, args);
     }
