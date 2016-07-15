@@ -20,7 +20,7 @@ Below is an example of the JSON that will be in the HTTP request that will be co
 	"device_id" : "123456789",
 	"location" : "example_room",
     "start_datetime" : "Sat Jul 9 19:59:59 EDT 2016",
-    "start_datetime" : "Sat Jul 9 19:59:59 EDT 2016",
+    "stop_datetime" : "Sat Jul 9 19:59:59 EDT 2016",
 	"temperature_data" : {
 		"temperature_1" : {
 			"temperature" : 78,
@@ -48,7 +48,7 @@ Accept: application/json
 	"device_id" : "123456789",
 	"location" : "example_room",
     "start_datetime" : "Sat Jul 9 19:59:59 EDT 2016",
-    "start_datetime" : "Sat Jul 9 19:59:59 EDT 2016",
+    "stop_datetime" : "Sat Jul 9 19:59:59 EDT 2016",
 	"temperature_data" : {
 		"temperature_1" : {
 			"temperature" : 78,
