@@ -1,9 +1,15 @@
 package com.temperature.send_data.controller;
 
+import com.temperature.send_data.Payload;
 import org.apache.log4j.Logger;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Jabari on 07/14/2016.
@@ -24,10 +30,15 @@ public class TempDataController {
     // Think of it as a binding between HTTP methods and pure Java methods
     @SuppressWarnings("unused")
     @RequestMapping(path = path, method = RequestMethod.POST)
-    public ResponseEntity<String> storeTempData(@RequestBody String s) throws Exception {
+    public ResponseEntity<Map<String, Object>> storeTemperatureData(@RequestBody Map<String, Object> payload) throws Exception {
 
-        // Return a response that says Hi, and a 202 (ACCEPTED) response code
-        ResponseEntity<String> responseEntity = new ResponseEntity<String>("Post successful", HttpStatus.ACCEPTED);
+        Map<String, Object> responseBody = payload;
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json; charset=UTF-8");
+
+        // Return the original body , and a 202 (ACCEPTED) response code
+        ResponseEntity<Map<String, Object>> responseEntity = new ResponseEntity<Map<String, Object>>(payload, headers, HttpStatus.ACCEPTED);
 
         // TODO - Implement logic for sending to data validator
 
@@ -40,16 +51,10 @@ public class TempDataController {
     // Think of it as a binding between HTTP methods and pure Java methods
     @SuppressWarnings("unused")
     @RequestMapping(path = path, method = RequestMethod.GET)
-    public ResponseEntity<String> returnTempData() throws Exception {
-
-        // Return a response that says Hi, and a 200 (OK) response code
-        ResponseEntity<String> responseEntity = new ResponseEntity<String>("Get successful", HttpStatus.OK);
-
+    public ResponseEntity<Map<String, Object>> getTemperatureData() throws Exception {
         // TODO - Implement logic for getting data from database
 
-        // TODO - Implement logic for sending data back to user
-
-        return responseEntity;
+        return getMockResponse();
     }
 
     // This function is bound (associated with) any Throwable (Exception) that is thrown
@@ -62,5 +67,35 @@ public class TempDataController {
         // TODO - Implement error handling logic
 
         return;
+    }
+
+    /**
+     *  Generates a mock Response Entity object in the way that they will be generated
+     * @return
+     */
+    private ResponseEntity<Map<String, Object>> getMockResponse() {
+        Map<String, Object> json = new HashMap<String, Object>();
+        json.put("device_id", "123");
+        json.put("location", "room");
+        json.put("start_datetime", new Date().toString());
+        json.put("stop_datetime", new Date().toString());
+
+        ArrayList<Map<String, String>> temp_data = new ArrayList<Map<String, String>>();
+        HashMap<String, String> x = new HashMap<String, String>();
+        x.put(new Date().toString(), "71");
+        temp_data.add(x);
+        temp_data.add(x);
+        temp_data.add(x);
+
+        json.put("temperature_data", temp_data);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json; charset=UTF-8");
+
+        // TODO - Implement logic for sending data back to user
+        // Return JSON and a 200 (OK) response code
+        ResponseEntity<Map<String, Object>> responseEntity = new ResponseEntity<Map<String, Object>>(json, headers, HttpStatus.OK);
+
+        return responseEntity;
     }
 }
