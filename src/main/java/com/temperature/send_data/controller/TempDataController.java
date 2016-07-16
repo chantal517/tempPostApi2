@@ -1,6 +1,5 @@
 package com.temperature.send_data.controller;
 
-import com.temperature.send_data.Payload;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

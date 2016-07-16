@@ -1,4 +1,4 @@
-package com.temperature.send_data.validator;
+package com.temperature.send_data.controller.validator;
 
 /**
  * Created by Jabari on 07/14/2016.

@@ -1,7 +1,6 @@
-package com.temperature.send_data;
+package com.temperature.send_data.util;
 
 import com.google.gson.Gson;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -9,6 +8,7 @@ import java.util.Map;
 /**
  * Created by Jabari on 07/14/2016.
  */
+@SuppressWarnings("unused")
 public class Payload {
     String deviceID;
     String location;
@@ -16,10 +16,12 @@ public class Payload {
     Date endDatetime;
     List<Map<String, String>> temperatureData;
 
+    @SuppressWarnings("unused")
     public Payload() {
 
     }
 
+    @SuppressWarnings("unused")
     public Payload(
             String deviceID,
             String location,
