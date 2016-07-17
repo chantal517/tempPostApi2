@@ -12,7 +12,7 @@ The REST endpoint will be waiting for **HTTP POST or GET** requests from the cli
 ##POST
 ###The Header
 ``` http
-POST /send_data/v1 HTTP 1.0
+POST /temperature_data/v1 HTTP 1.0
 Content-Type: application/json
 Accept: application/json
 ```
