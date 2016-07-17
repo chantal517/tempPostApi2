@@ -1,4 +1,4 @@
-package com.temperature.send_data.commons.data.model;
+package com.temperature.commons.data.model;
 
 import java.util.Date;
 import java.util.HashMap;

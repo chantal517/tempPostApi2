@@ -1,4 +1,4 @@
-package com.temperature.send_data.commons.data.model;
+package com.temperature.commons.data.model;
 
 import com.google.gson.Gson;
 import java.util.HashMap;

@@ -1,7 +1,7 @@
-package com.temperature.send_data.commons;
+package com.temperature.commons;
 
-import com.temperature.send_data.commons.data.model.JSONPayload;
-import com.temperature.send_data.commons.data.model.TemperaturePayload;
+import com.temperature.commons.data.model.JSONPayload;
+import com.temperature.commons.data.model.TemperaturePayload;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

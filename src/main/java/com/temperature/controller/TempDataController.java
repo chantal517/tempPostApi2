@@ -1,6 +1,6 @@
-package com.temperature.send_data.controller;
+package com.temperature.controller;
 
-import com.temperature.send_data.commons.Util;
+import com.temperature.commons.Util;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
