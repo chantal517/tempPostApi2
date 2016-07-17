@@ -22,24 +22,24 @@ Below is an example of the JSON that will be in the HTTP request or response tha
 
 ``` json
 {
-	"device_id" : "123456789",
-	"location" : "example_room",
-    "start_datetime" : "Sat Jul 9 19:58:59 EDT 2016",
-    "stop_datetime" : "Sat Jul 9 19:59:59 EDT 2016",
-	"temperature_data" : {
-		"temperature_1" : {
-			"temperature" : 78,
-			"datetime" : "Sat Jul 9 19:59:59 EDT 2016"
-		},
-		"temperature_2" : {
-			"temperature" : 79,
-			"datetime" : "Sat Jul 9 19:58:59 EDT 2016"
-		},
-		"temperature_3" : {
-			"temperature" : 80,
-			"datetime" : "Sat Jul 9 19:57:59 EDT 2016"
-		}
-	}
+  "device_id": "12345",
+  "location": "rooms",
+  "start_datetime": "Sun Jul 17 15:16:08 CDT 2016",
+  "stop_datetime": "Sun Jul 17 15:16:08 CDT 2016",
+  "temperature_data": [
+    {
+      "datetime": "Sun Jul 17 15:16:08 CDT 2016",
+      "temperature": 71.43
+    },
+    {
+      "datetime": "Sun Jul 17 15:16:08 CDT 2016",
+      "temperature": 71.43
+    },
+    {
+      "datetime": "Sun Jul 17 15:16:08 CDT 2016",
+      "temperature": 71.43
+    }
+  ]
 }
 ```
 
@@ -50,24 +50,24 @@ Content-Type: application/json
 Accept: application/json
 
 {
-	"device_id" : "123456789",
-	"location" : "example_room",
-    "start_datetime" : "Sat Jul 9 19:58:59 EDT 2016",
-    "stop_datetime" : "Sat Jul 9 19:59:59 EDT 2016",
-	"temperature_data" : {
-		"temperature_1" : {
-			"temperature" : 78,
-			"datetime" : "Sat Jul 9 19:59:59 EDT 2016"
-		},
-		"temperature_2" : {
-			"temperature" : 79,
-			"datetime" : "Sat Jul 9 19:58:59 EDT 2016"
-		},
-		"temperature_3" : {
-			"temperature" : 80,
-			"datetime" : "Sat Jul 9 19:57:59 EDT 2016"
-		}
-	}
+  "device_id": "12345",
+  "location": "rooms",
+  "start_datetime": "Sun Jul 17 15:16:08 CDT 2016",
+  "stop_datetime": "Sun Jul 17 15:16:08 CDT 2016",
+  "temperature_data": [
+    {
+      "datetime": "Sun Jul 17 15:16:08 CDT 2016",
+      "temperature": 71.43
+    },
+    {
+      "datetime": "Sun Jul 17 15:16:08 CDT 2016",
+      "temperature": 71.43
+    },
+    {
+      "datetime": "Sun Jul 17 15:16:08 CDT 2016",
+      "temperature": 71.43
+    }
+  ]
 }
 ```
 
