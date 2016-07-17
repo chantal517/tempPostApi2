@@ -4,10 +4,10 @@
 The REST endpoint will be waiting for **HTTP POST or GET** requests from the client. The endpoint will only have methods mapped to the POST and GET method. PATCH, DELETE, and **other HTTP methods will not be functional** for this endpoint.
 
 ##Endpoint details
-| HTTP Method    | Host      | Path       | Port # | Description |
-| -------------- | ----------| ---------- | ------ | ----------- |
-| POST           | localhost | /temp_data | 8080   | **Post a JSON array of temperature readings** |
-| GET            | localhost | /temp_data | 8080   | **Get a JSON array of temperature readings** |
+| HTTP Method    | Host      | Path              | Port # | Description |
+| -------------- | ----------| ----------        | ------ | ----------- |
+| POST           | localhost | /temperature_data | 8080   | **Post a JSON array of temperature readings** |
+| GET            | localhost | /temperature_data | 8080   | **Get a JSON array of temperature readings** |
 
 ##POST
 ###The Header
@@ -45,7 +45,7 @@ Below is an example of the JSON that will be in the HTTP request or response tha
 
 ###Example POST Request
 ```http
-POST /send_data/v1 HTTP 1.0
+POST /temperature_data/v1 HTTP 1.0
 Content-Type: application/json
 Accept: application/json
 
