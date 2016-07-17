@@ -16,7 +16,7 @@ import java.util.Map;
 public class TempDataController {
     static Logger log = Logger.getLogger(TempDataController.class);
 
-    final String path = "${path}";
+    final String path = "temp_data";
 
     /**
      *
