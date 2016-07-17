@@ -11,6 +11,10 @@ public class TemperaturePayload extends AbstractPayload {
     private double temperature;
     private Date datetime;
 
+    /**
+     *
+     * @param builder
+     */
     public TemperaturePayload(TemperaturePayload.Builder builder) {
         this.temperature = builder.temperature;
         this.datetime    = builder.datetime;
@@ -20,6 +24,10 @@ public class TemperaturePayload extends AbstractPayload {
     @SuppressWarnings("unused") public double getTemperature() { return this.temperature; }
     @SuppressWarnings("unused") public Date getDatetime() { return this.datetime; }
 
+    /**
+     *
+     * @return
+     */
     public HashMap<String, Object> toMap() {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put(this.temperatureTitle, this.temperature);
@@ -60,6 +68,11 @@ public class TemperaturePayload extends AbstractPayload {
             return this;
         }
 
+        /**
+         *
+         * @return
+         * @throws NullPointerException
+         */
         public TemperaturePayload build() throws NullPointerException {
             if (this.datetime == null) throw new NullPointerException(datetimeTitle + isEmptyOrNull);
 

@@ -1,9 +1,12 @@
 package com.temperature.send_data.commons.data.model;
 
 import com.google.gson.Gson;
-import java.util.Map;
+import java.util.HashMap;
 
 /**
+ * @author Jabari Dash
+ * @author Chantal Lewis
+ *
  * Created by Jabari on 07/16/2016.
  */
 public abstract class AbstractPayload {
@@ -21,8 +24,17 @@ public abstract class AbstractPayload {
     @SuppressWarnings("unused") public final static String isEmptyOrNull        = " is empty or null";
 
     // Abstract Methods that must be implemented in all classes that implement this interface
-    public abstract Map<String, Object> toMap();
 
+    /**
+     * Abstract method for returning Payloads as {@code HashMap<String, Object>} objects.
+     * @return Returns the {@code HashMap} representation of the {@code AbstractPayload} object
+     */
+    public abstract HashMap<String, Object> toMap();
+
+    /**
+     *
+     * @return the JSON {@code String} representation of the {@code AbstractPayload} object
+     */
     @SuppressWarnings("unused")
     public String toJSON() {
         return new Gson().toJson(this);

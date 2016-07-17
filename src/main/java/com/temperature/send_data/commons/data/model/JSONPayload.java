@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * @author Chantal Lewis
+ * @author Jabari Dash
+ *
  * Created by Jabari && Chantal on 07/14/2016.
  */
 @SuppressWarnings("unused")
@@ -17,7 +20,7 @@ public final class JSONPayload extends AbstractPayload {
     private List<Map<String, Object>> temperatureData;
 
     /**
-     * Builds JSON payload from a builder class
+     * Builds a {@code JSONPayload} from a {@code JSONPayload.Builder} class
      * @param builder
      */
     @SuppressWarnings("unused")
@@ -38,7 +41,7 @@ public final class JSONPayload extends AbstractPayload {
 
     /**
      *
-     * @return Returns the payload as a HashMap
+     * @return Returns the {@code JSONPayload} object as a {@code HashMap<String, Object>}.
      */
     public HashMap<String, Object> toMap(){
         HashMap<String, Object> map = new HashMap<String, Object>();
@@ -52,7 +55,7 @@ public final class JSONPayload extends AbstractPayload {
     }
 
     /**
-     * Used to build JSONPayload object with chained calls for setting attributes
+     * Used to build {@code JSONPayload} object with chained calls for setting attributes
      * Also guarantees that all necessary fields will be initialized
      */
     public static class Builder {
@@ -62,11 +65,12 @@ public final class JSONPayload extends AbstractPayload {
         private Date stopDatetime;
         private List<Map<String, Object>> temperatureData;
 
-        // TODO - Make it so that this must be called within a try catch block
-        public Builder() throws NullPointerException {
-            ;
-        }
-
+        /**
+         *
+         * @param deviceID
+         * @return
+         * @throws NullPointerException
+         */
         public Builder deviceID(String deviceID) throws NullPointerException {
             if (deviceID == null || deviceID.equals("")) throw new NullPointerException(deviceIDTitle + isEmptyOrNull);
 
@@ -74,6 +78,12 @@ public final class JSONPayload extends AbstractPayload {
             return this;
         }
 
+        /**
+         *
+         * @param location
+         * @return
+         * @throws NullPointerException
+         */
         public Builder location(String location) throws NullPointerException{
             if (location == null || location.equals("")) throw new NullPointerException(locationTitle + isEmptyOrNull);
 
@@ -81,13 +91,25 @@ public final class JSONPayload extends AbstractPayload {
             return this;
         }
 
+        /**
+         *
+         * @param startDatetime
+         * @return
+         * @throws NullPointerException
+         */
         public Builder startDatetime(Date startDatetime) throws NullPointerException {
-            if (startDatetime == null || startDatetime.toString().equals("") )throw new NullPointerException(startDatetimeTitle + isEmptyOrNull);
+            if (startDatetime == null || startDatetime.toString().equals(""))throw new NullPointerException(startDatetimeTitle + isEmptyOrNull);
 
             this.startDatetime = startDatetime;
             return this;
         }
 
+        /**
+         *
+         * @param stopDatetime
+         * @return
+         * @throws NullPointerException
+         */
         public Builder stopDatetime(Date stopDatetime) throws NullPointerException {
             if (stopDatetime == null || stopDatetime.toString().equals("") )throw new NullPointerException(startDatetimeTitle + isEmptyOrNull);
 
@@ -95,6 +117,12 @@ public final class JSONPayload extends AbstractPayload {
             return this;
         }
 
+        /**
+         *
+         * @param temperatureData
+         * @return
+         * @throws NullPointerException
+         */
         public Builder temperatureData(List<Map<String, Object>> temperatureData) throws NullPointerException {
             if (temperatureData == null)throw new NullPointerException(temperatureDataTitle + isEmptyOrNull);
 
@@ -103,7 +131,7 @@ public final class JSONPayload extends AbstractPayload {
         }
 
         /**
-         * Builds a new JSONPayload object
+         * Builds a new {@code JSONPayload} object
          * @return
          * @throws NullPointerException
          */

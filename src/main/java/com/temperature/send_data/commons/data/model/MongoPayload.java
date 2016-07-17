@@ -4,7 +4,8 @@ import java.util.Date;
 import java.util.HashMap;
 
 /**
- * Created by Jabari on 07/16/2016.
+ * @author Jabari Dash
+ * @author Chantal Lewis
  */
 @SuppressWarnings("unused")
 public class MongoPayload extends AbstractPayload {
@@ -13,6 +14,10 @@ public class MongoPayload extends AbstractPayload {
     private float temperature;
     private Date datetime;
 
+    /**
+     *
+     * @param builder
+     */
     public MongoPayload(MongoPayload.Builder builder) {
         this.deviceID       = builder.deviceID;
         this.location       = builder.location;
@@ -20,6 +25,10 @@ public class MongoPayload extends AbstractPayload {
         this.datetime       = builder.datetime;
     }
 
+    /**
+     *
+     * @return
+     */
     public HashMap<String, Object> toMap() {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put(this.deviceIDTitle, this.deviceID);
