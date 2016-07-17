@@ -2,6 +2,8 @@ package com.temperature.commons.data;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -16,6 +18,10 @@ public class MongoPayload extends AbstractPayload {
     private String location;
     private double temperature;
     private Date datetime;
+
+    public MongoPayload() {
+        // TODO - PLACEHOLDER
+    }
 
     /**
      *
@@ -40,6 +46,19 @@ public class MongoPayload extends AbstractPayload {
         map.put(this.datetimeTitle, this.datetime.toString());
 
         return map;
+    }
+
+    public static MongoPayload fromMap(Map<String, Object> map) throws MyNullPointerException {
+        // TODO - Implement SimpleDateFormat to convert String to Dates
+
+        MongoPayload mongoPayload = new Builder()
+                .deviceID((String) map.get(AbstractPayload.deviceIDTitle))
+                .location((String) map.get(AbstractPayload.locationTitle))
+                .datetime(null)
+                .temperature((Double) map.get(AbstractPayload.temperatureTitle))
+                .build();
+
+        return mongoPayload;
     }
 
     /**
@@ -77,6 +96,13 @@ public class MongoPayload extends AbstractPayload {
             return this;
         }
 
+        public Builder datetime(Date datetime) throws MyNullPointerException {
+            if(datetime == null || datetime.toString().equals("")) throw new MyNullPointerException(datetimeTitle + isEmptyOrNull);
+
+            this.datetime = datetime;
+            return this;
+        }
+
         /**
          *
          * @param temperature
@@ -86,6 +112,12 @@ public class MongoPayload extends AbstractPayload {
             this.temperature = temperature;
 
             return this;
+        }
+
+        public MongoPayload build() {
+            // TODO - Implement null pointer checks
+
+            return new MongoPayload(this);
         }
     }
 }

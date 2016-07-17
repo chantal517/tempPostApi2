@@ -2,6 +2,7 @@ package com.temperature.commons.data;
 
 import com.google.gson.Gson;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author Jabari Dash

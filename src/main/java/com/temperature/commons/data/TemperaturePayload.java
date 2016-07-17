@@ -2,6 +2,8 @@ package com.temperature.commons.data;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
 
 /**
@@ -13,6 +15,10 @@ public class TemperaturePayload extends AbstractPayload {
 
     private double temperature;
     private Date datetime;
+
+    public TemperaturePayload() {
+        // TODO - PLACE HOLDER
+    }
 
     /**
      *
@@ -37,6 +43,17 @@ public class TemperaturePayload extends AbstractPayload {
         map.put(this.datetimeTitle, this.datetime.toString());
 
         return map;
+    }
+
+    public static TemperaturePayload fromMap(Map<String, Object> map) throws MyNullPointerException {
+        // TODO - Implement SimpleDateFormat to convert String to Dates
+
+        TemperaturePayload temperaturePayload = new TemperaturePayload.Builder()
+                .datetime(null)
+                .temperature((Double) map.get(AbstractPayload.temperatureTitle))
+                .build();
+
+        return temperaturePayload;
     }
 
     /**

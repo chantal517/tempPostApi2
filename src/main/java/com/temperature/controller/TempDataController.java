@@ -10,6 +10,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * @author Jabari Dash
+ * @author Chantal Lewis
+ *
  * Created by Jabari on 07/14/2016.
  */
 @RestController
@@ -27,6 +30,8 @@ public class TempDataController {
     @SuppressWarnings("unused")
     @RequestMapping(value = path, method = RequestMethod.POST)
     public ResponseEntity<Map<String, Object>> storeTemperatureData(@RequestBody Map<String, Object> jsonPayload) throws Exception {
+
+        // TODO - VALIDATE jsonPayload
 
         Map<String, Object> responseBody = jsonPayload;
 

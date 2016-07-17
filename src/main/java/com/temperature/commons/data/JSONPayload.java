@@ -58,6 +58,26 @@ public final class JSONPayload extends AbstractPayload {
     }
 
     /**
+     *
+     * @param jsonPayloadMap
+     * @return
+     * @throws MyNullPointerException
+     */
+    public static JSONPayload fromMap(Map<String, Object> jsonPayloadMap)throws MyNullPointerException {
+        // TODO - Implement SimpleDateFormat to convert String to Dates
+
+        JSONPayload jsonPayload = new JSONPayload.Builder()
+                .deviceID((String) jsonPayloadMap.get(AbstractPayload.deviceIDTitle))
+                .location((String) jsonPayloadMap.get(AbstractPayload.locationTitle))
+                .startDatetime(null)
+                .stopDatetime(null)
+                .temperatureData((List<Map<String, Object>>) jsonPayloadMap.get(AbstractPayload.temperatureDataTitle))
+                .build();
+
+        return jsonPayload;
+    }
+
+    /**
      * Used to build {@code JSONPayload} object with chained calls for setting attributes
      * Also guarantees that all necessary fields will be initialized
      */
