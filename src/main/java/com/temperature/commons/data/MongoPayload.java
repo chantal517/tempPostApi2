@@ -1,7 +1,8 @@
-package com.temperature.commons.data.model;
+package com.temperature.commons.data;
 
 import java.util.Date;
 import java.util.HashMap;
+import org.apache.log4j.Logger;
 
 /**
  * @author Jabari Dash
@@ -9,9 +10,11 @@ import java.util.HashMap;
  */
 @SuppressWarnings("unused")
 public class MongoPayload extends AbstractPayload {
+    static Logger log = Logger.getLogger(MongoPayload.class);
+
     private String deviceID;
     private String location;
-    private float temperature;
+    private double temperature;
     private Date datetime;
 
     /**
@@ -45,16 +48,17 @@ public class MongoPayload extends AbstractPayload {
     public static class Builder {
         private String deviceID;
         private String location;
-        private float temperature;
+        private double temperature;
         private Date datetime;
 
         /**
          *
          * @param deviceID
          * @return
+         * @throws MyNullPointerException
          */
-        public Builder deviceID(String deviceID)throws NullPointerException {
-            if(deviceID == null || deviceID.equals("")) throw new NullPointerException(deviceIDTitle + isEmptyOrNull);
+        public Builder deviceID(String deviceID)throws MyNullPointerException {
+            if(deviceID == null || deviceID.equals("")) throw new MyNullPointerException(deviceIDTitle + isEmptyOrNull);
             this.deviceID = deviceID;
 
             return this;
@@ -64,9 +68,10 @@ public class MongoPayload extends AbstractPayload {
          *
          * @param location
          * @return
+         * @throws MyNullPointerException
          */
-        public Builder location(String location) throws NullPointerException {
-            if(location == null || location.equals("")) throw new NullPointerException(locationTitle + isEmptyOrNull);
+        public Builder location(String location) throws MyNullPointerException {
+            if(location == null || location.equals("")) throw new MyNullPointerException(locationTitle + isEmptyOrNull);
             this.location = location;
 
             return this;
@@ -77,7 +82,7 @@ public class MongoPayload extends AbstractPayload {
          * @param temperature
          * @return
          */
-        public Builder temperature(float temperature){
+        public Builder temperature(double temperature){
             this.temperature = temperature;
 
             return this;

@@ -18,7 +18,6 @@ public class TempDataController {
 
     final String path = "${path}";
 
-
     /**
      *
      * @param jsonPayload
@@ -32,7 +31,7 @@ public class TempDataController {
         Map<String, Object> responseBody = jsonPayload;
 
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Content-Type", "application/json; charset=UTF-8");
+        headers.add(Util.contentType, Util.jsonContentType);
 
         // Return the original body , and a 202 (ACCEPTED) response code
         ResponseEntity<Map<String, Object>> responseEntity = new ResponseEntity<Map<String, Object>>(jsonPayload, headers, HttpStatus.ACCEPTED);
@@ -54,7 +53,7 @@ public class TempDataController {
     public ResponseEntity<HashMap<String, Object>> getTemperatureData() throws Exception {
         // TODO - Implement logic for getting data from database
 
-        return Util.getMockResponse();
+        return new Util().getMockResponse();
     }
 
     /**

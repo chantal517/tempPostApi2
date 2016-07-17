@@ -1,13 +1,16 @@
-package com.temperature.commons.data.model;
+package com.temperature.commons.data;
 
 import java.util.Date;
 import java.util.HashMap;
+import org.apache.log4j.Logger;
 
 /**
  * Created by Jabari on 07/16/2016.
  */
 @SuppressWarnings("unused")
 public class TemperaturePayload extends AbstractPayload {
+    static Logger log = Logger.getLogger(TemperaturePayload.class);
+
     private double temperature;
     private Date datetime;
 
@@ -58,10 +61,10 @@ public class TemperaturePayload extends AbstractPayload {
          * Sets the datetime attribute in the Builder
          * @param datetime
          * @return
-         * @throws NullPointerException If the Date object passed is null
+         * @throws MyNullPointerException If the Date object passed is null
          */
-        public Builder datetime(Date datetime) throws NullPointerException {
-            if (datetime == null) throw new NullPointerException(datetimeTitle + isEmptyOrNull);
+        public Builder datetime(Date datetime) throws MyNullPointerException {
+            if (datetime == null) throw new MyNullPointerException(datetimeTitle + isEmptyOrNull);
 
             this.datetime = datetime;
 
@@ -71,10 +74,10 @@ public class TemperaturePayload extends AbstractPayload {
         /**
          *
          * @return
-         * @throws NullPointerException
+         * @throws MyNullPointerException
          */
-        public TemperaturePayload build() throws NullPointerException {
-            if (this.datetime == null) throw new NullPointerException(datetimeTitle + isEmptyOrNull);
+        public TemperaturePayload build() throws MyNullPointerException {
+            if (this.datetime == null) throw new MyNullPointerException(datetimeTitle + isEmptyOrNull);
 
             return new TemperaturePayload(this);
         }

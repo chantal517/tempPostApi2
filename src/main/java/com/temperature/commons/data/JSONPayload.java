@@ -1,9 +1,10 @@
-package com.temperature.commons.data.model;
+package com.temperature.commons.data;
 
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.log4j.Logger;
 
 /**
  * @author Chantal Lewis
@@ -13,6 +14,8 @@ import java.util.Map;
  */
 @SuppressWarnings("unused")
 public final class JSONPayload extends AbstractPayload {
+    static Logger log = Logger.getLogger(JSONPayload.class);
+
     private String deviceID;
     private String location;
     private Date startDatetime;
@@ -59,6 +62,7 @@ public final class JSONPayload extends AbstractPayload {
      * Also guarantees that all necessary fields will be initialized
      */
     public static class Builder {
+
         private String deviceID;
         private String location;
         private Date startDatetime;
@@ -69,10 +73,10 @@ public final class JSONPayload extends AbstractPayload {
          *
          * @param deviceID
          * @return
-         * @throws NullPointerException
+         * @throws MyNullPointerException
          */
-        public Builder deviceID(String deviceID) throws NullPointerException {
-            if (deviceID == null || deviceID.equals("")) throw new NullPointerException(deviceIDTitle + isEmptyOrNull);
+        public Builder deviceID(String deviceID) throws MyNullPointerException {
+            if (deviceID == null || deviceID.equals("")) throw new MyNullPointerException(deviceIDTitle + isEmptyOrNull);
 
             this.deviceID = deviceID;
             return this;
@@ -82,10 +86,10 @@ public final class JSONPayload extends AbstractPayload {
          *
          * @param location
          * @return
-         * @throws NullPointerException
+         * @throws MyNullPointerException
          */
-        public Builder location(String location) throws NullPointerException{
-            if (location == null || location.equals("")) throw new NullPointerException(locationTitle + isEmptyOrNull);
+        public Builder location(String location) throws MyNullPointerException{
+            if (location == null || location.equals("")) throw new MyNullPointerException(locationTitle + isEmptyOrNull);
 
             this.location = location;
             return this;
@@ -95,10 +99,10 @@ public final class JSONPayload extends AbstractPayload {
          *
          * @param startDatetime
          * @return
-         * @throws NullPointerException
+         * @throws MyNullPointerException
          */
-        public Builder startDatetime(Date startDatetime) throws NullPointerException {
-            if (startDatetime == null || startDatetime.toString().equals(""))throw new NullPointerException(startDatetimeTitle + isEmptyOrNull);
+        public Builder startDatetime(Date startDatetime) throws MyNullPointerException {
+            if (startDatetime == null || startDatetime.toString().equals(""))throw new MyNullPointerException(startDatetimeTitle + isEmptyOrNull);
 
             this.startDatetime = startDatetime;
             return this;
@@ -108,10 +112,10 @@ public final class JSONPayload extends AbstractPayload {
          *
          * @param stopDatetime
          * @return
-         * @throws NullPointerException
+         * @throws MyNullPointerException
          */
-        public Builder stopDatetime(Date stopDatetime) throws NullPointerException {
-            if (stopDatetime == null || stopDatetime.toString().equals("") )throw new NullPointerException(startDatetimeTitle + isEmptyOrNull);
+        public Builder stopDatetime(Date stopDatetime) throws MyNullPointerException {
+            if (stopDatetime == null || stopDatetime.toString().equals("") )throw new MyNullPointerException(startDatetimeTitle + isEmptyOrNull);
 
             this.stopDatetime = stopDatetime;
             return this;
@@ -121,10 +125,10 @@ public final class JSONPayload extends AbstractPayload {
          *
          * @param temperatureData
          * @return
-         * @throws NullPointerException
+         * @throws MyNullPointerException
          */
-        public Builder temperatureData(List<Map<String, Object>> temperatureData) throws NullPointerException {
-            if (temperatureData == null)throw new NullPointerException(temperatureDataTitle + isEmptyOrNull);
+        public Builder temperatureData(List<Map<String, Object>> temperatureData) throws MyNullPointerException {
+            if (temperatureData == null)throw new MyNullPointerException(temperatureDataTitle + isEmptyOrNull);
 
             this.temperatureData = temperatureData;
             return this;
@@ -133,16 +137,16 @@ public final class JSONPayload extends AbstractPayload {
         /**
          * Builds a new {@code JSONPayload} object
          * @return
-         * @throws NullPointerException
+         * @throws MyNullPointerException
          */
-        public JSONPayload build() throws NullPointerException {
+        public JSONPayload build() throws MyNullPointerException {
 
             // Check that all required fields have been initialized
-            if (this.deviceID == null || this.deviceID.equals("")) throw new NullPointerException(deviceIDTitle + isEmptyOrNull);
-            if (this.location == null || this.location.equals("")) throw new NullPointerException(locationTitle + isEmptyOrNull);
-            if (this.startDatetime == null || this.startDatetime.toString().equals("") )throw new NullPointerException(startDatetimeTitle + isEmptyOrNull);
-            if (this.stopDatetime == null || this.stopDatetime.toString().equals("") )throw new NullPointerException(startDatetimeTitle + isEmptyOrNull);
-            if (this.temperatureData == null)throw new NullPointerException(temperatureDataTitle + isEmptyOrNull);
+            if (this.deviceID == null || this.deviceID.equals("")) throw new MyNullPointerException(deviceIDTitle + isEmptyOrNull);
+            if (this.location == null || this.location.equals("")) throw new MyNullPointerException(locationTitle + isEmptyOrNull);
+            if (this.startDatetime == null || this.startDatetime.toString().equals("") )throw new MyNullPointerException(startDatetimeTitle + isEmptyOrNull);
+            if (this.stopDatetime == null || this.stopDatetime.toString().equals("") )throw new MyNullPointerException(startDatetimeTitle + isEmptyOrNull);
+            if (this.temperatureData == null)throw new MyNullPointerException(temperatureDataTitle + isEmptyOrNull);
 
             return new JSONPayload(this);
         }
