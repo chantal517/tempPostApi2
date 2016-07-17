@@ -13,20 +13,19 @@ public class MongoPayload extends AbstractPayload {
     private float temperature;
     private Date datetime;
 
-    public MongoPayload(Builder builder) {
+    public MongoPayload(MongoPayload.Builder builder) {
         this.deviceID       = builder.deviceID;
-        this.location       = builder. location;
+        this.location       = builder.location;
         this.temperature    = builder.temperature;
         this.datetime       = builder.datetime;
     }
 
     public HashMap<String, Object> toMap() {
         HashMap<String, Object> map = new HashMap<String, Object>();
-
-        map.put(deviceIDTitle, deviceID);
-        map.put(locationTitle, location);
-        map.put(temperatureTitle, temperature);
-        map.put(datetimeTitle, datetime.toString());
+        map.put(this.deviceIDTitle, this.deviceID);
+        map.put(this.locationTitle, this.location);
+        map.put(this.temperatureTitle, this.temperature);
+        map.put(this.datetimeTitle, this.datetime.toString());
 
         return map;
     }
@@ -40,18 +39,38 @@ public class MongoPayload extends AbstractPayload {
         private float temperature;
         private Date datetime;
 
-        public Builder deviceID(String deviceID){
+        /**
+         *
+         * @param deviceID
+         * @return
+         */
+        public Builder deviceID(String deviceID)throws NullPointerException {
             if(deviceID == null || deviceID.equals("")) throw new NullPointerException(deviceIDTitle + isEmptyOrNull);
             this.deviceID = deviceID;
+
             return this;
         }
-        public Builder location(String location){
+
+        /**
+         *
+         * @param location
+         * @return
+         */
+        public Builder location(String location) throws NullPointerException {
             if(location == null || location.equals("")) throw new NullPointerException(locationTitle + isEmptyOrNull);
             this.location = location;
+
             return this;
         }
+
+        /**
+         *
+         * @param temperature
+         * @return
+         */
         public Builder temperature(float temperature){
             this.temperature = temperature;
+
             return this;
         }
     }

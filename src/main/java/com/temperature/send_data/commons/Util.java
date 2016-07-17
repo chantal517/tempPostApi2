@@ -1,7 +1,7 @@
 package com.temperature.send_data.commons;
 
-import com.temperature.send_data.commons.data.model.AbstractPayload;
 import com.temperature.send_data.commons.data.model.JSONPayload;
+import com.temperature.send_data.commons.data.model.TemperaturePayload;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,13 +21,16 @@ public class Util {
     public static ResponseEntity<HashMap<String, Object>> getMockResponse() {
         ArrayList<Map<String, Object>> temp_data = new ArrayList<Map<String, Object>>();
 
-        HashMap<String, Object> x = new HashMap<String, Object>();
-        x.put(AbstractPayload.temperatureTitle, new Float(71));
-        x.put(AbstractPayload.temperatureTitle, new Date().toString());
+        TemperaturePayload temperaturePayload = new TemperaturePayload.Builder()
+                .temperature(71.43)
+                .datetime(new Date())
+                .build();
 
-        temp_data.add(x);
-        temp_data.add(x);
-        temp_data.add(x);
+        HashMap<String, Object> temperatureMap = temperaturePayload.toMap();
+
+        temp_data.add(temperatureMap);
+        temp_data.add(temperatureMap);
+        temp_data.add(temperatureMap);
 
         JSONPayload jsonResponsePayload = new JSONPayload.Builder()
                 .deviceID("12345")
@@ -42,7 +45,6 @@ public class Util {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/json; charset=UTF-8");
 
-        // TODO - Implement logic for sending data back to user
         // Return JSON and a 200 (OK) response code
         ResponseEntity<HashMap<String, Object>> responseEntity = new ResponseEntity<HashMap<String, Object>>(json, headers, HttpStatus.OK);
 

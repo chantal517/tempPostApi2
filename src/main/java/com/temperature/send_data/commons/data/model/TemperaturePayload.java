@@ -8,23 +8,22 @@ import java.util.HashMap;
  */
 @SuppressWarnings("unused")
 public class TemperaturePayload extends AbstractPayload {
-    private float temperature;
+    private double temperature;
     private Date datetime;
 
-    public TemperaturePayload(Builder builder) {
+    public TemperaturePayload(TemperaturePayload.Builder builder) {
         this.temperature = builder.temperature;
         this.datetime    = builder.datetime;
     }
 
     // Accessor methods
-    @SuppressWarnings("unused") public float getTemperature() { return this.temperature; }
+    @SuppressWarnings("unused") public double getTemperature() { return this.temperature; }
     @SuppressWarnings("unused") public Date getDatetime() { return this.datetime; }
 
     public HashMap<String, Object> toMap() {
         HashMap<String, Object> map = new HashMap<String, Object>();
-
         map.put(this.temperatureTitle, this.temperature);
-        map.put(this.datetimeTitle, this.datetime);
+        map.put(this.datetimeTitle, this.datetime.toString());
 
         return map;
     }
@@ -33,16 +32,17 @@ public class TemperaturePayload extends AbstractPayload {
      * Builds a TemperaturePayload object
      */
     public static class Builder {
-        float temperature;
-        Date datetime;
+        private double temperature;
+        private Date datetime;
 
         /**
          * Sets the temperature attribute in the Builder
          * @param temperature
          * @return
          */
-        public Builder temperature(float temperature) {
+        public Builder temperature(double temperature) {
             this.temperature = temperature;
+
             return this;
         }
 
@@ -56,7 +56,14 @@ public class TemperaturePayload extends AbstractPayload {
             if (datetime == null) throw new NullPointerException(datetimeTitle + isEmptyOrNull);
 
             this.datetime = datetime;
+
             return this;
+        }
+
+        public TemperaturePayload build() throws NullPointerException {
+            if (this.datetime == null) throw new NullPointerException(datetimeTitle + isEmptyOrNull);
+
+            return new TemperaturePayload(this);
         }
     }
 }

@@ -21,7 +21,7 @@ public final class JSONPayload extends AbstractPayload {
      * @param builder
      */
     @SuppressWarnings("unused")
-    public JSONPayload(Builder builder){
+    public JSONPayload(JSONPayload.Builder builder){
         this.deviceID        = builder.deviceID;
         this.location        = builder.location;
         this.startDatetime   = builder.startDatetime;
@@ -42,7 +42,6 @@ public final class JSONPayload extends AbstractPayload {
      */
     public HashMap<String, Object> toMap(){
         HashMap<String, Object> map = new HashMap<String, Object>();
-
         map.put(deviceIDTitle, this.deviceID);
         map.put(locationTitle, this.location);
         map.put(startDatetimeTitle, this.startDatetime.toString());
