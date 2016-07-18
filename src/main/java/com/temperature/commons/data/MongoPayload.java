@@ -1,9 +1,12 @@
 package com.temperature.commons.data;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.temperature.commons.exception.MyNullPointerException;
 import org.apache.log4j.Logger;
 
 /**
@@ -19,15 +22,12 @@ public class MongoPayload extends AbstractPayload {
     private double temperature;
     private Date datetime;
 
-    public MongoPayload() {
-        // TODO - PLACEHOLDER
-    }
-
     /**
      *
      * @param builder
      */
     public MongoPayload(MongoPayload.Builder builder) {
+        log.info("Building MongoPayload from MongoPayload.Builder");
         this.deviceID       = builder.deviceID;
         this.location       = builder.location;
         this.temperature    = builder.temperature;
@@ -48,13 +48,15 @@ public class MongoPayload extends AbstractPayload {
         return map;
     }
 
-    public static MongoPayload fromMap(Map<String, Object> map) throws MyNullPointerException {
+    public static MongoPayload fromMap(Map<String, Object> map) throws MyNullPointerException, ParseException {
         // TODO - Implement SimpleDateFormat to convert String to Dates
+        SimpleDateFormat formatter = new SimpleDateFormat(AbstractPayload.datetimeFormat);
+        Date datetime = formatter.parse((String) map.get(AbstractPayload.datetimeTitle));
 
         MongoPayload mongoPayload = new Builder()
                 .deviceID((String) map.get(AbstractPayload.deviceIDTitle))
                 .location((String) map.get(AbstractPayload.locationTitle))
-                .datetime(null)
+                .datetime(datetime)
                 .temperature((Double) map.get(AbstractPayload.temperatureTitle))
                 .build();
 

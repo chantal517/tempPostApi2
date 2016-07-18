@@ -1,9 +1,10 @@
 package com.temperature.commons.data;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
+import com.temperature.commons.exception.MyNullPointerException;
 import org.apache.log4j.Logger;
 
 /**
@@ -16,15 +17,12 @@ public class TemperaturePayload extends AbstractPayload {
     private double temperature;
     private Date datetime;
 
-    public TemperaturePayload() {
-        // TODO - PLACE HOLDER
-    }
-
     /**
      *
      * @param builder
      */
     public TemperaturePayload(TemperaturePayload.Builder builder) {
+        log.info("Building TemperaturePayload from TemperaturePayload.Builder");
         this.temperature = builder.temperature;
         this.datetime    = builder.datetime;
     }
@@ -37,19 +35,52 @@ public class TemperaturePayload extends AbstractPayload {
      *
      * @return
      */
-    public HashMap<String, Object> toMap() {
-        HashMap<String, Object> map = new HashMap<String, Object>();
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<String, Object>();
         map.put(this.temperatureTitle, this.temperature);
         map.put(this.datetimeTitle, this.datetime.toString());
 
         return map;
     }
 
-    public static TemperaturePayload fromMap(Map<String, Object> map) throws MyNullPointerException {
+    /**
+     *
+     * @param mapList
+     * @return
+     * @throws MyNullPointerException
+     */
+    @SuppressWarnings("unused")
+    public static List<TemperaturePayload> toTemperaturePayloadList(List<Map<String, Object>> mapList) throws MyNullPointerException, ParseException {
+        List<TemperaturePayload> temperaturePayloadList = new ArrayList<TemperaturePayload>();
+
+        for (Map<String, Object> map : mapList) {
+            temperaturePayloadList.add(fromMap(map));
+        }
+
+        return temperaturePayloadList;
+    }
+
+    /**
+     *
+     * @param temperaturePayloadList
+     * @return
+     */
+    public static List<Map<String, Object>> toMapList(List<TemperaturePayload> temperaturePayloadList) {
+        List<Map<String, Object>> mapList = new ArrayList<Map<String, Object>>();
+
+        for (TemperaturePayload temperaturePayload : temperaturePayloadList) {
+            mapList.add(temperaturePayload.toMap());
+        }
+        return mapList;
+    }
+
+    public static TemperaturePayload fromMap(Map<String, Object> map) throws MyNullPointerException, ParseException, ClassCastException {
         // TODO - Implement SimpleDateFormat to convert String to Dates
+        SimpleDateFormat formatter = new SimpleDateFormat(AbstractPayload.datetimeFormat);
+        Date datetime = formatter.parse((String) map.get(AbstractPayload.datetimeTitle));
 
         TemperaturePayload temperaturePayload = new TemperaturePayload.Builder()
-                .datetime(null)
+                .datetime(datetime)
                 .temperature((Double) map.get(AbstractPayload.temperatureTitle))
                 .build();
 
@@ -70,7 +101,6 @@ public class TemperaturePayload extends AbstractPayload {
          */
         public Builder temperature(double temperature) {
             this.temperature = temperature;
-
             return this;
         }
 
@@ -81,10 +111,9 @@ public class TemperaturePayload extends AbstractPayload {
          * @throws MyNullPointerException If the Date object passed is null
          */
         public Builder datetime(Date datetime) throws MyNullPointerException {
-            if (datetime == null) throw new MyNullPointerException(datetimeTitle + isEmptyOrNull);
+            if (datetime == null || datetime.toString().equals("")) throw new MyNullPointerException(datetimeTitle + isEmptyOrNull);
 
             this.datetime = datetime;
-
             return this;
         }
 
@@ -94,7 +123,7 @@ public class TemperaturePayload extends AbstractPayload {
          * @throws MyNullPointerException
          */
         public TemperaturePayload build() throws MyNullPointerException {
-            if (this.datetime == null) throw new MyNullPointerException(datetimeTitle + isEmptyOrNull);
+            if (this.datetime == null || datetime.toString().equals("")) throw new MyNullPointerException(datetimeTitle + isEmptyOrNull);
 
             return new TemperaturePayload(this);
         }

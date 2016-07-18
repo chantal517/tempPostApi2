@@ -1,9 +1,12 @@
 package com.temperature.commons.data;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import com.temperature.commons.exception.MyNullPointerException;
 import org.apache.log4j.Logger;
 
 /**
@@ -20,7 +23,7 @@ public final class JSONPayload extends AbstractPayload {
     private String location;
     private Date startDatetime;
     private Date stopDatetime;
-    private List<Map<String, Object>> temperatureData;
+    private List<TemperaturePayload> temperatureData;
 
     /**
      * Builds a {@code JSONPayload} from a {@code JSONPayload.Builder} class
@@ -28,6 +31,7 @@ public final class JSONPayload extends AbstractPayload {
      */
     @SuppressWarnings("unused")
     public JSONPayload(JSONPayload.Builder builder){
+        log.info("Building JSONPayload from JSONPayload.Builder");
         this.deviceID        = builder.deviceID;
         this.location        = builder.location;
         this.startDatetime   = builder.startDatetime;
@@ -39,8 +43,8 @@ public final class JSONPayload extends AbstractPayload {
     @SuppressWarnings("unused") public String getDeviceID() { return this.deviceID; }
     @SuppressWarnings("unused") public String getLocation() { return this.location; }
     @SuppressWarnings("unused") public Date getStartDatetime() { return this.startDatetime; }
-    @SuppressWarnings("unused") public Date getStopDatetime() {return this.stopDatetime; }
-    @SuppressWarnings("unused") public List<Map<String, Object>> getTemperatureData() { return this.temperatureData; }
+    @SuppressWarnings("unused") public Date getStopDatetime() { return this.stopDatetime; }
+    @SuppressWarnings("unused") public List<TemperaturePayload> getTemperatureData() { return this.temperatureData; }
 
     /**
      *
@@ -52,7 +56,7 @@ public final class JSONPayload extends AbstractPayload {
         map.put(locationTitle, this.location);
         map.put(startDatetimeTitle, this.startDatetime.toString());
         map.put(stopDatetimeTitle, this.stopDatetime.toString());
-        map.put(temperatureDataTitle, this.temperatureData);
+        map.put(temperatureDataTitle, TemperaturePayload.toMapList(this.temperatureData));
 
         return map;
     }
@@ -63,15 +67,17 @@ public final class JSONPayload extends AbstractPayload {
      * @return
      * @throws MyNullPointerException
      */
-    public static JSONPayload fromMap(Map<String, Object> jsonPayloadMap)throws MyNullPointerException {
-        // TODO - Implement SimpleDateFormat to convert String to Dates
+    public static JSONPayload fromMap(Map<String, Object> jsonPayloadMap)throws MyNullPointerException, ParseException, ClassCastException {
+        SimpleDateFormat formatter = new SimpleDateFormat(AbstractPayload.datetimeFormat);
+        Date startDatetime = formatter.parse((String) jsonPayloadMap.get(AbstractPayload.startDatetimeTitle));
+        Date stopDateTime = formatter.parse((String) jsonPayloadMap.get(AbstractPayload.stopDatetimeTitle));
 
         JSONPayload jsonPayload = new JSONPayload.Builder()
                 .deviceID((String) jsonPayloadMap.get(AbstractPayload.deviceIDTitle))
                 .location((String) jsonPayloadMap.get(AbstractPayload.locationTitle))
-                .startDatetime(null)
-                .stopDatetime(null)
-                .temperatureData((List<Map<String, Object>>) jsonPayloadMap.get(AbstractPayload.temperatureDataTitle))
+                .startDatetime(startDatetime)
+                .stopDatetime(stopDateTime)
+                .temperatureData(TemperaturePayload.toTemperaturePayloadList((List<Map<String, Object>>) jsonPayloadMap.get(AbstractPayload.temperatureDataTitle)))
                 .build();
 
         return jsonPayload;
@@ -82,12 +88,11 @@ public final class JSONPayload extends AbstractPayload {
      * Also guarantees that all necessary fields will be initialized
      */
     public static class Builder {
-
         private String deviceID;
         private String location;
         private Date startDatetime;
         private Date stopDatetime;
-        private List<Map<String, Object>> temperatureData;
+        private List<TemperaturePayload> temperatureData;
 
         /**
          *
@@ -147,8 +152,8 @@ public final class JSONPayload extends AbstractPayload {
          * @return
          * @throws MyNullPointerException
          */
-        public Builder temperatureData(List<Map<String, Object>> temperatureData) throws MyNullPointerException {
-            if (temperatureData == null)throw new MyNullPointerException(temperatureDataTitle + isEmptyOrNull);
+        public Builder temperatureData(List<TemperaturePayload> temperatureData) throws MyNullPointerException {
+            if (temperatureData == null || temperatureData.isEmpty()) throw new MyNullPointerException(temperatureDataTitle + isEmptyOrNull);
 
             this.temperatureData = temperatureData;
             return this;
@@ -166,8 +171,9 @@ public final class JSONPayload extends AbstractPayload {
             if (this.location == null || this.location.equals("")) throw new MyNullPointerException(locationTitle + isEmptyOrNull);
             if (this.startDatetime == null || this.startDatetime.toString().equals("") )throw new MyNullPointerException(startDatetimeTitle + isEmptyOrNull);
             if (this.stopDatetime == null || this.stopDatetime.toString().equals("") )throw new MyNullPointerException(startDatetimeTitle + isEmptyOrNull);
-            if (this.temperatureData == null)throw new MyNullPointerException(temperatureDataTitle + isEmptyOrNull);
+            if (this.temperatureData == null || temperatureData.isEmpty())throw new MyNullPointerException(temperatureDataTitle + isEmptyOrNull);
 
+            log.info("All fields are non-null, returning valid JSONPayload object");
             return new JSONPayload(this);
         }
     }

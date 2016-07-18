@@ -22,6 +22,7 @@ public abstract class AbstractPayload {
     @SuppressWarnings("unused") public final static String datetimeTitle        = "datetime";
 
     // Other reused Strings
+    @SuppressWarnings("unused") public final static String datetimeFormat = "EEE MMM dd HH:mm:ss zzz yyyy";
     @SuppressWarnings("unused") public final static String isEmptyOrNull        = " is empty or null";
 
     // Abstract Methods that must be implemented in all classes that implement this interface
@@ -30,7 +31,7 @@ public abstract class AbstractPayload {
      * Abstract method for returning Payloads as {@code HashMap<String, Object>} objects.
      * @return Returns the {@code HashMap} representation of the {@code AbstractPayload} object
      */
-    public abstract HashMap<String, Object> toMap();
+    public abstract Map<String, Object> toMap();
 
     /**
      *

@@ -1,16 +1,14 @@
 package com.temperature.commons;
 
 import com.temperature.commons.data.JSONPayload;
-import com.temperature.commons.data.MyNullPointerException;
+import com.temperature.commons.exception.MyNullPointerException;
 import com.temperature.commons.data.TemperaturePayload;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+
+import java.util.*;
 
 /**
  * Created by Jabari && Chantal on 07/16/2016.
@@ -26,7 +24,7 @@ public class Util {
      * @return
      */
     public ResponseEntity<HashMap<String, Object>> getMockResponse() {
-        ArrayList<Map<String, Object>> temp_data = new ArrayList<Map<String, Object>>();
+        ArrayList<TemperaturePayload> temperature_data = new ArrayList<TemperaturePayload>();
 
         TemperaturePayload temperaturePayload = null;
 
@@ -36,15 +34,12 @@ public class Util {
                     .datetime(new Date())
                     .build();
         } catch (MyNullPointerException e) {
-            // TODO - LOG ERROR
-            e.printStackTrace();
+            log.error("Failed to construct TemperaturePayload", e);
         }
 
-        HashMap<String, Object> temperatureMap = temperaturePayload.toMap();
-
-        temp_data.add(temperatureMap);
-        temp_data.add(temperatureMap);
-        temp_data.add(temperatureMap);
+        temperature_data.add(temperaturePayload);
+        temperature_data.add(temperaturePayload);
+        temperature_data.add(temperaturePayload);
 
         JSONPayload jsonResponsePayload = null;
 
@@ -54,14 +49,13 @@ public class Util {
                     .location("rooms")
                     .startDatetime(new Date())
                     .stopDatetime(new Date())
-                    .temperatureData(temp_data)
+                    .temperatureData(temperature_data)
                     .build();
         } catch (MyNullPointerException e) {
-            // TODO - LOG ERROR
-            e.printStackTrace();
+            log.error("Failed to construct JSONPayload", e);
         }
 
-        HashMap<String,Object> json = jsonResponsePayload.toMap();
+        HashMap<String, Object> json = jsonResponsePayload.toMap();
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(contentType, jsonContentType);

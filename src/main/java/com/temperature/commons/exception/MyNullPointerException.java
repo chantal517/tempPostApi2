@@ -1,4 +1,4 @@
-package com.temperature.commons.data;
+package com.temperature.commons.exception;
 
 /**
  * The {@code MyNullPointerException} class extends the {@code Exception} class
@@ -11,7 +11,7 @@ package com.temperature.commons.data;
  * Created by Jabari on 07/17/2016.
  */
 public class MyNullPointerException extends Exception {
-    MyNullPointerException(String message) {
+    public MyNullPointerException(String message) {
         super(message);
     }
 }
