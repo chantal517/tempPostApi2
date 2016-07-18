@@ -2,10 +2,9 @@ package com.temperature.commons.data;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import com.temperature.commons.exception.InvalidDataException;
 import com.temperature.commons.exception.MyNullPointerException;
 import org.apache.log4j.Logger;
 
@@ -66,12 +65,19 @@ public final class JSONPayload extends AbstractPayload {
      * @param jsonPayloadMap
      * @return
      * @throws MyNullPointerException
+     * @throws ParseException
+     * @throws ClassCastException
+     * @throws InvalidDataException
      */
-    public static JSONPayload fromMap(Map<String, Object> jsonPayloadMap)throws MyNullPointerException, ParseException, ClassCastException {
+    public static JSONPayload fromMap(Map<String, Object> jsonPayloadMap)
+            throws MyNullPointerException, ParseException, ClassCastException, InvalidDataException {
+
+        // Convert dates from Strings to Date objects
         SimpleDateFormat formatter = new SimpleDateFormat(AbstractPayload.datetimeFormat);
         Date startDatetime = formatter.parse((String) jsonPayloadMap.get(AbstractPayload.startDatetimeTitle));
         Date stopDateTime = formatter.parse((String) jsonPayloadMap.get(AbstractPayload.stopDatetimeTitle));
 
+        // Build JSONPayload
         JSONPayload jsonPayload = new JSONPayload.Builder()
                 .deviceID((String) jsonPayloadMap.get(AbstractPayload.deviceIDTitle))
                 .location((String) jsonPayloadMap.get(AbstractPayload.locationTitle))
@@ -169,8 +175,8 @@ public final class JSONPayload extends AbstractPayload {
             // Check that all required fields have been initialized
             if (this.deviceID == null || this.deviceID.equals("")) throw new MyNullPointerException(deviceIDTitle + isEmptyOrNull);
             if (this.location == null || this.location.equals("")) throw new MyNullPointerException(locationTitle + isEmptyOrNull);
-            if (this.startDatetime == null || this.startDatetime.toString().equals("") )throw new MyNullPointerException(startDatetimeTitle + isEmptyOrNull);
-            if (this.stopDatetime == null || this.stopDatetime.toString().equals("") )throw new MyNullPointerException(startDatetimeTitle + isEmptyOrNull);
+            if (this.startDatetime == null || this.startDatetime.toString().equals(""))throw new MyNullPointerException(startDatetimeTitle + isEmptyOrNull);
+            if (this.stopDatetime == null || this.stopDatetime.toString().equals(""))throw new MyNullPointerException(startDatetimeTitle + isEmptyOrNull);
             if (this.temperatureData == null || temperatureData.isEmpty())throw new MyNullPointerException(temperatureDataTitle + isEmptyOrNull);
 
             log.info("All fields are non-null, returning valid JSONPayload object");

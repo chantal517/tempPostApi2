@@ -1,11 +1,14 @@
 package com.temperature.controller.validator;
 
 import com.temperature.commons.data.*;
+import com.temperature.commons.exception.InvalidDataException;
 import com.temperature.commons.exception.MyNullPointerException;
 import com.temperature.commons.exception.PayloadNotRecognizedException;
 import org.apache.log4j.Logger;
 import java.text.ParseException;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,7 +30,8 @@ public class PayloadValidator {
      * @throws PayloadNotRecognizedException
      */
     @SuppressWarnings("unused")
-    public PayloadValidator(Map<String, Object> payloadMap, Class payloadClass) throws MyNullPointerException, PayloadNotRecognizedException, ParseException {
+    public PayloadValidator(Map<String, Object> payloadMap, Class payloadClass)
+            throws MyNullPointerException, PayloadNotRecognizedException, ParseException, InvalidDataException {
 
         log.info("Checking Payload type");
         if (payloadClass == JSONPayload.class) {
@@ -49,16 +53,38 @@ public class PayloadValidator {
         }
     }
 
-    public boolean temperatureDataValid() throws PayloadNotRecognizedException {
-        boolean isValid = false;
+    public boolean temperatureDataValid()
+            throws PayloadNotRecognizedException, ParseException, MyNullPointerException, InvalidDataException {
+        boolean isValid = true;
 
         if (this.payload.getClass() == JSONPayload.class) {
-            // TODO - Check that all datetime fields are non-empty / non-null
-            // TODO - Check that all datetime fields fall within the start_datetime and stop_datetime fields (chronologically)
-            // TODO - Check that all temperature fields are non-empty / non-null
-            // TODO - Return false if any of the above cases are false
+            log.info("Making sure that all dates occur between " + AbstractPayload.startDatetimeTitle + " and " + AbstractPayload.stopDatetimeTitle);
+            JSONPayload tempJSONPayload = (JSONPayload) this.payload;
 
-            isValid = true;
+            Date startDatetime = tempJSONPayload.getStartDatetime();
+            Date stopDatetime = tempJSONPayload.getStopDatetime();
+            List<TemperaturePayload> temperaturePayloadList = tempJSONPayload.getTemperatureData();
+
+            // Make sure that all dates fit within the designated range (start-stop)
+            for (TemperaturePayload temperaturePayload : temperaturePayloadList) {
+                if (temperaturePayload.getDatetime().before(startDatetime) || temperaturePayload.getDatetime().after(stopDatetime)) {
+                    log.info(temperaturePayload.getDatetime().toString()
+                            + " does not occur between "
+                            + AbstractPayload.startDatetimeTitle
+                            + ": " + startDatetime.toString()
+                            + " and " + AbstractPayload.stopDatetimeTitle +
+                            ": " + stopDatetime.toString());
+                    isValid = false;
+                    break;
+                }
+            }
+            if (isValid == true) {
+                log.info("All dates occur between "
+                        + AbstractPayload.startDatetimeTitle
+                        + ": " + startDatetime.toString()
+                        + " and " + AbstractPayload.stopDatetimeTitle +
+                        ": " + stopDatetime.toString());
+            }
 
         } else if (this.payload.getClass() == MongoPayload.class) {
             // TODO - Check that temperature is non-empty / non-null

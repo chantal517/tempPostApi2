@@ -1,6 +1,7 @@
 package com.temperature.commons;
 
 import com.temperature.commons.data.JSONPayload;
+import com.temperature.commons.exception.InvalidDataException;
 import com.temperature.commons.exception.MyNullPointerException;
 import com.temperature.commons.data.TemperaturePayload;
 import org.apache.log4j.Logger;
@@ -30,11 +31,13 @@ public class Util {
 
         try {
             temperaturePayload = new TemperaturePayload.Builder()
-                    .temperature(71.43)
+                    .temperature(71)
                     .datetime(new Date())
                     .build();
         } catch (MyNullPointerException e) {
             log.error("Failed to construct TemperaturePayload", e);
+        } catch (InvalidDataException f) {
+            log.error("Invalid temperature value", f);
         }
 
         temperature_data.add(temperaturePayload);

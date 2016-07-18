@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import com.temperature.commons.exception.InvalidDataException;
 import com.temperature.commons.exception.MyNullPointerException;
 import org.apache.log4j.Logger;
 
@@ -43,6 +44,20 @@ public class TemperaturePayload extends AbstractPayload {
         return map;
     }
 
+    public static TemperaturePayload fromMap(Map<String, Object> map)
+            throws MyNullPointerException, ParseException, ClassCastException, InvalidDataException {
+
+        SimpleDateFormat formatter = new SimpleDateFormat(datetimeFormat);
+        Date datetime = formatter.parse((String) map.get(datetimeTitle));
+
+        TemperaturePayload temperaturePayload = new TemperaturePayload.Builder()
+                .datetime(datetime)
+                .temperature(Double.parseDouble(map.get(temperatureTitle).toString())) // Compensate for type casting issues
+                .build();
+
+        return temperaturePayload;
+    }
+
     /**
      *
      * @param mapList
@@ -50,7 +65,8 @@ public class TemperaturePayload extends AbstractPayload {
      * @throws MyNullPointerException
      */
     @SuppressWarnings("unused")
-    public static List<TemperaturePayload> toTemperaturePayloadList(List<Map<String, Object>> mapList) throws MyNullPointerException, ParseException {
+    public static List<TemperaturePayload> toTemperaturePayloadList(List<Map<String, Object>> mapList)
+            throws MyNullPointerException, ParseException, InvalidDataException {
         List<TemperaturePayload> temperaturePayloadList = new ArrayList<TemperaturePayload>();
 
         for (Map<String, Object> map : mapList) {
@@ -74,19 +90,6 @@ public class TemperaturePayload extends AbstractPayload {
         return mapList;
     }
 
-    public static TemperaturePayload fromMap(Map<String, Object> map) throws MyNullPointerException, ParseException, ClassCastException {
-        // TODO - Implement SimpleDateFormat to convert String to Dates
-        SimpleDateFormat formatter = new SimpleDateFormat(AbstractPayload.datetimeFormat);
-        Date datetime = formatter.parse((String) map.get(AbstractPayload.datetimeTitle));
-
-        TemperaturePayload temperaturePayload = new TemperaturePayload.Builder()
-                .datetime(datetime)
-                .temperature((Double) map.get(AbstractPayload.temperatureTitle))
-                .build();
-
-        return temperaturePayload;
-    }
-
     /**
      * Builds a TemperaturePayload object
      */
@@ -99,7 +102,14 @@ public class TemperaturePayload extends AbstractPayload {
          * @param temperature
          * @return
          */
-        public Builder temperature(double temperature) {
+        public Builder temperature(double temperature) throws InvalidDataException {
+            if (temperature > Double.MAX_VALUE
+//                    || temperature < Double.MIN_VALUE     // Causing condition to be true, and exception thrown when 0 is passed
+                    || temperature == Double.NaN
+                    || temperature == Double.POSITIVE_INFINITY
+                    || temperature == Double.NEGATIVE_INFINITY
+            ) throw new InvalidDataException(temperatureTitle + isNotAValidNumber);
+
             this.temperature = temperature;
             return this;
         }

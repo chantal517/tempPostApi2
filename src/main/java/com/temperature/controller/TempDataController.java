@@ -2,13 +2,16 @@ package com.temperature.controller;
 
 import com.temperature.commons.Util;
 import com.temperature.commons.data.JSONPayload;
+import com.temperature.commons.exception.InvalidDataException;
 import com.temperature.commons.exception.MyNullPointerException;
 import com.temperature.controller.validator.PayloadValidator;
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.*;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,7 +28,7 @@ public class TempDataController {
     final String path = "temp_data";
 
     /**
-     * 
+     *
      * @param jsonPayload
      * @return
      * @throws Exception
@@ -44,6 +47,10 @@ public class TempDataController {
         // If the object constructs successfully, all required fields are non-empty or non-null
         // Get the JSONPayload back as a Map, and send it back to the client
         Map<String, Object> responseBody = payloadValidator.getPayload().toMap();
+
+        if (payloadValidator.temperatureDataValid() == false) {
+            throw new InvalidDataException("Invalid temperature data");
+        }
 
         HttpHeaders headers = new HttpHeaders();
         headers.add(Util.contentType, Util.jsonContentType);
@@ -71,23 +78,36 @@ public class TempDataController {
         return new Util().getMockResponse();
     }
 
-    @SuppressWarnings("unused")
-    @ExceptionHandler(Throwable.class)
-    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-    public void errorResponse(Throwable throwable) {
-        log.error("Internal Server Error", throwable);
-        // TODO - Implement error handling logic
 
-        return;
+    @SuppressWarnings("unused")
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({
+            MyNullPointerException.class,
+            NullPointerException.class,
+            ParseException.class,
+            InvalidDataException.class,
+            HttpMessageNotReadableException.class})
+    public ResponseEntity<String> badRequest(Exception e) {
+        String message = e.getMessage();
+        log.error("", e);
+
+        if (e.getClass() == HttpMessageNotReadableException.class) {
+            message = "Error parsing JSON, please make sure that the JSON body is valid JSON";
+        }
+
+        ResponseEntity<String> responseEntity = new ResponseEntity<String>(message, HttpStatus.BAD_REQUEST);
+
+        return responseEntity;
     }
 
     @SuppressWarnings("unused")
-    @ExceptionHandler(MyNullPointerException.class)
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public void emptyField(MyNullPointerException e) {
-        log.error("Empty Field", e);
-        // TODO - Implement error handling logic
+    @ExceptionHandler({Throwable.class})
+    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseEntity<String> internalServerError(Exception e) {
 
-        return;
+        log.error("", e);
+        ResponseEntity<String> responseEntity = new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+
+        return responseEntity;
     }
 }

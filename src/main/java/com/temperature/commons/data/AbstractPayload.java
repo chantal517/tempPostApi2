@@ -22,8 +22,9 @@ public abstract class AbstractPayload {
     @SuppressWarnings("unused") public final static String datetimeTitle        = "datetime";
 
     // Other reused Strings
-    @SuppressWarnings("unused") public final static String datetimeFormat = "EEE MMM dd HH:mm:ss zzz yyyy";
+    @SuppressWarnings("unused") public final static String datetimeFormat       = "EEE MMM dd HH:mm:ss zzz yyyy";
     @SuppressWarnings("unused") public final static String isEmptyOrNull        = " is empty or null";
+    @SuppressWarnings("unused") public final static String isNotAValidNumber    = " is not a valid temperature value";
 
     // Abstract Methods that must be implemented in all classes that implement this interface
 
