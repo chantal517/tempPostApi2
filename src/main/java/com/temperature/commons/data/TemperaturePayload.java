@@ -54,7 +54,7 @@ public class TemperaturePayload extends AbstractPayload {
 
         // Make sure that the temperature is a a number, and not a string
         if (map.get(temperatureTitle).getClass() == String.class) {
-            throw new InvalidDataException("Temperature was a String");
+             throw new InvalidDataException("Temperature was a String");
         }
 
         TemperaturePayload temperaturePayload = new TemperaturePayload.Builder()

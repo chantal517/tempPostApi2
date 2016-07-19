@@ -6,7 +6,6 @@ import com.temperature.commons.exception.MyNullPointerException;
 import com.temperature.commons.exception.PayloadNotRecognizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
@@ -60,17 +59,28 @@ public class PayloadValidator {
         boolean isValid = true;
 
         if (this.payload.getClass() == JSONPayload.class) {
-            log.info("Making sure that all dates occur between " + AbstractPayload.startDatetimeTitle + " and " + AbstractPayload.stopDatetimeTitle);
             JSONPayload tempJSONPayload = (JSONPayload) this.payload;
 
             Date startDatetime = tempJSONPayload.getStartDatetime();
             Date stopDatetime = tempJSONPayload.getStopDatetime();
+
+            // TODO - Make sure startDatetime and stopDateTime have not passed
+            Date now = new Date();
+
+            if (stopDatetime.after(now)) {
+                String message = "stop_datetime: " + startDatetime.toString() + " occurs after now: " + now.toString();
+                log.error(message);
+                throw new InvalidDataException(message);
+
+            }
+
+            log.info("Making sure that all dates occur between " + AbstractPayload.startDatetimeTitle + " and " + AbstractPayload.stopDatetimeTitle);
             List<TemperaturePayload> temperaturePayloadList = tempJSONPayload.getTemperatureData();
 
             // Make sure that all dates fit within the designated range (start-stop)
             for (TemperaturePayload temperaturePayload : temperaturePayloadList) {
                 if (temperaturePayload.getDatetime().before(startDatetime) || temperaturePayload.getDatetime().after(stopDatetime)) {
-                    log.info(temperaturePayload.getDatetime().toString()
+                    log.warn(temperaturePayload.getDatetime().toString()
                             + " does not occur between "
                             + AbstractPayload.startDatetimeTitle
                             + ": " + startDatetime.toString()
