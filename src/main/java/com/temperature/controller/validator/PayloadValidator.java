@@ -4,7 +4,9 @@ import com.temperature.commons.data.*;
 import com.temperature.commons.exception.InvalidDataException;
 import com.temperature.commons.exception.MyNullPointerException;
 import com.temperature.commons.exception.PayloadNotRecognizedException;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.text.ParseException;
 import java.util.Date;
 import java.util.HashMap;
@@ -19,7 +21,7 @@ import java.util.Map;
  */
 @SuppressWarnings("unused")
 public class PayloadValidator {
-    static Logger log = Logger.getLogger(PayloadValidator.class);
+    static Logger log = LoggerFactory.getLogger(PayloadValidator.class);
     private AbstractPayload payload;
 
     /**

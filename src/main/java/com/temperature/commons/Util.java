@@ -4,7 +4,8 @@ import com.temperature.commons.data.JSONPayload;
 import com.temperature.commons.exception.InvalidDataException;
 import com.temperature.commons.exception.MyNullPointerException;
 import com.temperature.commons.data.TemperaturePayload;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ import java.util.*;
  * Created by Jabari && Chantal on 07/16/2016.
  */
 public class Util {
-    static Logger log = Logger.getLogger(Util.class);
+    static Logger log = LoggerFactory.getLogger(Util.class);
 
     public static final String jsonContentType  = "application/json; charset=UTF-8";
     public static final String contentType      = "Content-Type";

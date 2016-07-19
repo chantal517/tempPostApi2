@@ -3,17 +3,19 @@ package com.temperature.commons.data;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-
 import com.temperature.commons.exception.InvalidDataException;
 import com.temperature.commons.exception.MyNullPointerException;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
+ * @author Jabari Dash
+ *
  * Created by Jabari on 07/16/2016.
  */
 @SuppressWarnings("unused")
 public class TemperaturePayload extends AbstractPayload {
-    static Logger log = Logger.getLogger(TemperaturePayload.class);
+    static Logger log = LoggerFactory.getLogger(TemperaturePayload.class);
 
     private double temperature;
     private Date datetime;
@@ -49,6 +51,11 @@ public class TemperaturePayload extends AbstractPayload {
 
         SimpleDateFormat formatter = new SimpleDateFormat(datetimeFormat);
         Date datetime = formatter.parse((String) map.get(datetimeTitle));
+
+        // Make sure that the temperature is a a number, and not a string
+        if (map.get(temperatureTitle).getClass() == String.class) {
+            throw new InvalidDataException("Temperature was a String");
+        }
 
         TemperaturePayload temperaturePayload = new TemperaturePayload.Builder()
                 .datetime(datetime)

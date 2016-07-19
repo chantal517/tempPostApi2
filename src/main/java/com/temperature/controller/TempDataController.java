@@ -5,7 +5,8 @@ import com.temperature.commons.data.JSONPayload;
 import com.temperature.commons.exception.InvalidDataException;
 import com.temperature.commons.exception.MyNullPointerException;
 import com.temperature.controller.validator.PayloadValidator;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ import java.util.Map;
  */
 @RestController
 public class TempDataController {
-    static Logger log = Logger.getLogger(TempDataController.class);
+    static Logger log = LoggerFactory.getLogger(TempDataController.class);
 
     final String path = "temp_data";
 
@@ -48,7 +49,7 @@ public class TempDataController {
         // Get the JSONPayload back as a Map, and send it back to the client
         Map<String, Object> responseBody = payloadValidator.getPayload().toMap();
 
-        if (payloadValidator.temperatureDataValid() == false) {
+        if (!payloadValidator.temperatureDataValid()) {
             throw new InvalidDataException("Invalid temperature data");
         }
 
@@ -56,12 +57,7 @@ public class TempDataController {
         headers.add(Util.contentType, Util.jsonContentType);
 
         // Return the original body , and a 202 (ACCEPTED) response code
-        ResponseEntity<Map<String, Object>> responseEntity = new ResponseEntity<Map<String, Object>>(jsonPayload, headers, HttpStatus.ACCEPTED);
-
-        // TODO - Implement logic for sending to data validator
-
-        // TODO - Implement logic for sending to data processor
-
+        ResponseEntity<Map<String, Object>> responseEntity = new ResponseEntity<Map<String, Object>>(responseBody, headers, HttpStatus.ACCEPTED);
         return responseEntity;
     }
 
@@ -77,7 +73,6 @@ public class TempDataController {
 
         return new Util().getMockResponse();
     }
-
 
     @SuppressWarnings("unused")
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)

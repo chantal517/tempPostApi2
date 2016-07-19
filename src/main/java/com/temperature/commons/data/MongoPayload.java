@@ -7,7 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.temperature.commons.exception.MyNullPointerException;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * @author Jabari Dash
@@ -15,7 +16,7 @@ import org.apache.log4j.Logger;
  */
 @SuppressWarnings("unused")
 public class MongoPayload extends AbstractPayload {
-    static Logger log = Logger.getLogger(MongoPayload.class);
+    static Logger log = LoggerFactory.getLogger(MongoPayload.class);
 
     private String deviceID;
     private String location;
