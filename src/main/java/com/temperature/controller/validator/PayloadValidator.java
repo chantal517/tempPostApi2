@@ -54,6 +54,7 @@ public class PayloadValidator {
         }
     }
 
+    // TODO - Check for duplicate TemperaturePayload objects?
     public boolean temperatureDataValid()
             throws PayloadNotRecognizedException, ParseException, MyNullPointerException, InvalidDataException {
         boolean isValid = true;
