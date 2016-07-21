@@ -8,6 +8,12 @@ gradlew.bat
 log/
 /raspberry_pi_arduino
 
+.classpath
+.project
+.settings/
+.bin/
+bin/
+
 # Ignore Gradle GUI config
 gradle-app.setting
 
