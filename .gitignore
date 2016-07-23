@@ -6,7 +6,6 @@ gradle
 gradlew
 gradlew.bat
 log/
-/raspberry_pi_arduino
 
 .classpath
 .project
