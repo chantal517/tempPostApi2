@@ -1,5 +1,7 @@
 const int TEMPERATURE_COLLECTION_DELAY = 1000 * 60;
 const int TEMPERATURE_POST_DELAY = TEMPERATURE_COLLECTION_DELAY * 10;
+char b = '\n';
+char c = '~'
 
 void setup() {
   // put your setup code here, to run once:
